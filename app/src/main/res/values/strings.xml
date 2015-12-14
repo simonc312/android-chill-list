@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ChilList</string>
+    <string name="action_settings">Settings</string>
+    <string name="create_todo_title">New Todo</string>
+    <string name="create_todo_hint">What would make your day chiller?</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="edit_todo_item">Edit Todo Item</string>
+    <string name="action_done">Done</string>
+</resources>
