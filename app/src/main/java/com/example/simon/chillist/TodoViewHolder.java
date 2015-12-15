@@ -38,15 +38,16 @@ public class TodoViewHolder extends RecyclerView.ViewHolder implements View.OnCl
             LocalBroadcastManager.getInstance(v.getContext()).sendBroadcast(intent);
         } //broadcast delete intent
         else{
+            todo.setChecked(checkBox.isChecked());
             Intent intent = new Intent("delete_mode");
             LocalBroadcastManager.getInstance(v.getContext()).sendBroadcast(intent);
-            todo.setChecked(checkBox.isChecked());
         }
     }
 
     public void setTodo(Todo todo){
         this.todo = todo;
         mainTextView.setText(todo.getText());
+        checkBox.setChecked(todo.isChecked());
     }
 
     public Todo getTodo(){
