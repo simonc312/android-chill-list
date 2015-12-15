@@ -1,8 +1,13 @@
 package com.example.simon.chillist;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
 
     private TodoAdapter adapter;
     private ActionMode.Callback callback;
+    private TodoBroadcastReciever todoBroadcastReciever;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +39,23 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
         setUpActionModeCallback();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new FabClickListener());
+        todoBroadcastReciever = new TodoBroadcastReciever();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("edit_mode");
+        filter.addAction("delete_mode");
+        LocalBroadcastManager.getInstance(this).registerReceiver(todoBroadcastReciever,filter);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(todoBroadcastReciever);
     }
 
     @Override
@@ -129,6 +152,43 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
             createOrDismissTodo();
         }
 
+    }
+
+    private class TodoBroadcastReciever extends BroadcastReceiver{
+
+        public final String EDIT_MODE_FILTER = "edit_mode";
+        public final String DELETE_MODE_FILTER = "delete_mode";
+        public final String POSITION_EXTRA = "position";
+        public final String TEXT_EXTRA = "text";
+        private ActionMode actionMode;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            switch(intent.getAction()){
+                case EDIT_MODE_FILTER:
+                    int pos = intent.getIntExtra(POSITION_EXTRA,-1);
+                    String text = intent.getStringExtra(TEXT_EXTRA);
+                    editOrDismissTodo(pos,text);
+                    break;
+                case DELETE_MODE_FILTER:
+                    if(adapter.hasAnyCheckedItems())
+                        startDeleteMode();
+                    else
+                        stopDeleteMode();
+            }
+        }
+
+        private void startDeleteMode(){
+            if(actionMode == null)
+                actionMode = startSupportActionMode(callback);
+        }
+
+        private void stopDeleteMode(){
+            if(actionMode != null) {
+                actionMode.finish();
+                actionMode = null;
+            }
+        }
     }
 
 }
