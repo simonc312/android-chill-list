@@ -13,7 +13,6 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
@@ -24,8 +23,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements TodoDialogFragment.TodoListener {
 
+    public final String EDIT_MODE_FILTER = "edit_mode";
+    public final String DELETE_MODE_FILTER = "delete_mode";
     private TodoAdapter adapter;
     private ActionMode.Callback callback;
+    private ActionMode actionMode;
     private TodoBroadcastReciever todoBroadcastReciever;
 
     @Override
@@ -47,9 +49,9 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
     protected void onResume() {
         super.onResume();
         IntentFilter filter = new IntentFilter();
-        filter.addAction("edit_mode");
-        filter.addAction("delete_mode");
-        LocalBroadcastManager.getInstance(this).registerReceiver(todoBroadcastReciever,filter);
+        filter.addAction(EDIT_MODE_FILTER);
+        filter.addAction(DELETE_MODE_FILTER);
+        LocalBroadcastManager.getInstance(this).registerReceiver(todoBroadcastReciever, filter);
     }
 
     @Override
@@ -139,7 +141,9 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
 
             @Override
             public void onDestroyActionMode(ActionMode mode) {
-                Log.d("action menu","destroy");
+                actionMode = null;
+                //if the back arrow icon was pressed
+                adapter.unCheckAllItems();
             }
 
         };
@@ -156,11 +160,8 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
 
     private class TodoBroadcastReciever extends BroadcastReceiver{
 
-        public final String EDIT_MODE_FILTER = "edit_mode";
-        public final String DELETE_MODE_FILTER = "delete_mode";
         public final String POSITION_EXTRA = "position";
         public final String TEXT_EXTRA = "text";
-        private ActionMode actionMode;
 
         @Override
         public void onReceive(Context context, Intent intent) {

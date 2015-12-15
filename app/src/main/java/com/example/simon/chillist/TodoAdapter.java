@@ -53,13 +53,20 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
         notifyItemChanged(position);
     }
 
-    /**
-     * Uncheck all checked items and delete them too
-     */
     public void deleteCheckedItems() {
         for(int i=mData.size()-1; i >= 0; i--){
             if(mData.get(i).isChecked()) {
                 deleteItem(i);
+            }
+        }
+    }
+
+    public void unCheckAllItems() {
+        for(int i=mData.size()-1; i >= 0; i--){
+            Todo todo = mData.get(i);
+            if(todo.isChecked()) {
+                todo.setChecked(false);
+                notifyItemChanged(i);
             }
         }
     }
