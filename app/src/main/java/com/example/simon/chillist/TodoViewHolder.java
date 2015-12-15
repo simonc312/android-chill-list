@@ -20,6 +20,7 @@ public class TodoViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         mainTextView = (TextView) itemView.findViewById(R.id.tv_main_text);
         checkBox = (CheckBox) itemView.findViewById(R.id.cb_checkbox);
         checkBox.setOnClickListener(this);
+        itemView.setOnClickListener(this);
     }
 
     @Override
