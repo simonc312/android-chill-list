@@ -76,7 +76,11 @@ public class TodoDialogFragment extends DialogFragment{
             public void onClick(View v) {
                 String text = getText();
                 if (text != null && !text.isEmpty()) {
-                    mListener.onAdd(text, position);
+                    if(isEditMode())
+                        mListener.onUpdate(text,position);
+                    else
+                        mListener.onAdd(text, position);
+
                     getDialog().dismiss();
                 }
 
@@ -105,6 +109,10 @@ public class TodoDialogFragment extends DialogFragment{
 
     private String getText(){
         return mEditText.getText().toString();
+    }
+
+    private boolean isEditMode(){
+        return getArguments().getInt(TITLE_EXTRA) == R.string.edit_todo_item;
     }
 
     interface TodoListener {

@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Simon on 12/13/2015.
  */
-public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> implements View.OnClickListener {
+public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
     private List<Todo> mData;
     private Context mContext;
 
@@ -21,8 +21,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> implements
     }
     @Override
     public TodoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.todo_list_item,parent,false);
-        view.setOnClickListener(this);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.todo_list_item, parent, false);
         return new TodoViewHolder(view);
     }
 
@@ -35,10 +34,6 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> implements
     @Override
     public int getItemCount() {
         return mData.size();
-    }
-
-    @Override
-    public void onClick(View v) {
     }
 
     public void addItem(int position, String data){
@@ -60,8 +55,27 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> implements
 
     public void deleteCheckedItems() {
         for(int i=mData.size()-1; i >= 0; i--){
-            if(mData.get(i).isChecked())
+            if(mData.get(i).isChecked()) {
                 deleteItem(i);
+            }
         }
+    }
+
+    public void unCheckAllItems() {
+        for(int i=mData.size()-1; i >= 0; i--){
+            Todo todo = mData.get(i);
+            if(todo.isChecked()) {
+                todo.setChecked(false);
+                notifyItemChanged(i);
+            }
+        }
+    }
+
+    public boolean hasAnyCheckedItems() {
+        for(Todo t : mData){
+            if(t.isChecked())
+                return true;
+        }
+        return false;
     }
 }
