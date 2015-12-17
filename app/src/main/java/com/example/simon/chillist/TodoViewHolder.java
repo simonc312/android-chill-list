@@ -47,7 +47,7 @@ public class TodoViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     public void setTodo(Todo todo){
         this.todo = todo;
         mainTextView.setText(todo.getText());
-        checkBox.setChecked(todo.isChecked());
+        checkBox.setChecked(todo.getChecked());
     }
 
     public Todo getTodo(){

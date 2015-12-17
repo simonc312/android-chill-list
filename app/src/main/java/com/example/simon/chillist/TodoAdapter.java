@@ -37,25 +37,27 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
     }
 
     public void addItem(int position, String data){
-        mData.add(position, new Todo(data));
+        mData.add(position,Todo.createAndSave(data));
         notifyItemInserted(position);
     }
 
     public void deleteItem(int position){
-        mData.remove(position);
+        Todo todo = mData.remove(position);
+        todo.delete();
         notifyItemRemoved(position);
     }
 
     public void changeItem(int position, String newItem){
         Todo todo = mData.get(position);
         todo.setText(newItem);
+        todo.update();
         mData.set(position, todo);
         notifyItemChanged(position);
     }
 
     public void deleteCheckedItems() {
         for(int i=mData.size()-1; i >= 0; i--){
-            if(mData.get(i).isChecked()) {
+            if(mData.get(i).getChecked()) {
                 deleteItem(i);
             }
         }
@@ -64,8 +66,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
     public void unCheckAllItems() {
         for(int i=mData.size()-1; i >= 0; i--){
             Todo todo = mData.get(i);
-            if(todo.isChecked()) {
+            if(todo.getChecked()) {
                 todo.setChecked(false);
+                todo.update();
                 notifyItemChanged(i);
             }
         }
@@ -73,7 +76,7 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
 
     public boolean hasAnyCheckedItems() {
         for(Todo t : mData){
-            if(t.isChecked())
+            if(t.getChecked())
                 return true;
         }
         return false;
