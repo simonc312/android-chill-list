@@ -1,4 +1,4 @@
-package com.example.simon.chillist;
+package com.example.simon.chillist.activities;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,6 +17,11 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.example.simon.chillist.R;
+import com.example.simon.chillist.models.Todo;
+import com.example.simon.chillist.adapters.TodoAdapter;
+import com.example.simon.chillist.fragments.TodoDialogFragment;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.simon.chillist;
+package com.example.simon.chillist.viewholders;
 
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
@@ -6,6 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import com.example.simon.chillist.R;
+import com.example.simon.chillist.models.Todo;
 
 /**
  * Created by Simon on 12/13/2015.
