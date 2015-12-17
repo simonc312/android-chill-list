@@ -59,12 +59,16 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
         notifyItemChanged(position);
     }
 
-    public void deleteCheckedItems() {
+    public int deleteCheckedItems() {
+        int count = 0;
         for(int i=mData.size()-1; i >= 0; i--){
             if(mData.get(i).getChecked()) {
                 deleteItem(i);
+                count++;
             }
         }
+
+        return count;
     }
 
     public void unCheckAllItems() {
@@ -84,5 +88,9 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
                 return true;
         }
         return false;
+    }
+
+    public void undoLastAction() {
+
     }
 }

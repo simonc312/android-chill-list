@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
 
     @Override
     public void onUpdate(String data, int position) {
-        adapter.changeItem(position,data);
+        adapter.changeItem(position, data);
     }
 
     private void setUpRecyclerview(RecyclerView recyclerview){
@@ -132,7 +133,10 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.action_done:
-                        adapter.deleteCheckedItems();
+
+                        int numDeleted = adapter.deleteCheckedItems();
+                        showSnackBar(String.format(getString(R.string.number_todos_completed),numDeleted));
+
                         mode.finish();
                         return true;
                     default:
@@ -148,6 +152,19 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
             }
 
         };
+    }
+
+    private void showSnackBar(String message) {
+        final Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinator_layout), message, Snackbar.LENGTH_LONG);
+        snackbar.setAction(R.string.undo_action, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snackbar.dismiss();
+                adapter.undoLastAction();
+            }
+        })
+                .setActionTextColor(getResources().getColor(R.color.colorAccent))
+                .show();
     }
 
     private class FabClickListener implements View.OnClickListener{
