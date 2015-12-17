@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements TodoDialogFragment.TodoListener {
@@ -88,10 +87,7 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
     }
 
     private void setUpRecyclerview(RecyclerView recyclerview){
-        List<Todo> list = new ArrayList<>();
-        list.add(new Todo("Netflix and chill"));
-        list.add(new Todo("Netflix and chill again"));
-        list.add(new Todo("Netflix and chill even more"));
+        List<Todo> list = Todo.getAll();
         adapter = new TodoAdapter(this,list);
         recyclerview.setAdapter(adapter);
         recyclerview.setLayoutManager(new LinearLayoutManager(this));
