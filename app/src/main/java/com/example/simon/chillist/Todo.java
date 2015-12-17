@@ -56,7 +56,7 @@ public class Todo extends BaseModel{
     }
 
     public static List<Todo> getAll() {
-        return new Select().from(Todo.class).queryList();
+        return new Select().from(Todo.class).orderBy(false,"ID").queryList();
     }
 
 }
