@@ -159,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
         snackbar.setAction(R.string.undo_action, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                snackbar.dismiss();
                 adapter.undoLastAction();
             }
         })
