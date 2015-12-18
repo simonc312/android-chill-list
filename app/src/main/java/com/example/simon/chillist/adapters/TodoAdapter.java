@@ -43,15 +43,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
         return mData.size();
     }
 
-    public void addItem(int position, String data){
-        mData.add(position, Todo.createAndSave(data));
+    public void addItem(int position, Todo data){
+        mData.add(position, data);
         notifyItemInserted(position);
     }
 
     public void restoreItem(int position, Todo data){
         data.save();
-        mData.add(position, data);
-        notifyItemInserted(position);
+        addItem(position,data);
     }
 
     public void deleteItem(int position){

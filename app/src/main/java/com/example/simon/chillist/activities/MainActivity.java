@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
 
     @Override
     public void onAdd(String data, int position) {
-        adapter.addItem(position,data);
+        adapter.addItem(position,Todo.createAndSave(data));
     }
 
     @Override
