@@ -1,5 +1,6 @@
-package com.example.simon.chillist;
+package com.example.simon.chillist.models;
 
+import com.example.simon.chillist.AppDatabase;
 import com.raizlabs.android.dbflow.annotation.Column;
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
@@ -56,7 +57,24 @@ public class Todo extends BaseModel{
     }
 
     public static List<Todo> getAll() {
-        return new Select().from(Todo.class).orderBy(false,"ID").queryList();
+        return new Select().from(Todo.class).orderBy(false, "ID").queryList();
+    }
+
+    public static class Momento{
+        private int position;
+        private Todo todo;
+        public Momento(int position,Todo todo){
+            this.position = position;
+            this.todo = todo;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public Todo getTodo() {
+            return todo;
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-package com.example.simon.chillist;
+package com.example.simon.chillist.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.simon.chillist.R;
 
 /**
  * Created by Simon on 12/13/2015.
@@ -115,7 +117,7 @@ public class TodoDialogFragment extends DialogFragment{
         return getArguments().getInt(TITLE_EXTRA) == R.string.edit_todo_item;
     }
 
-    interface TodoListener {
+    public interface TodoListener {
         void onAdd(String data, int position);
         void onUpdate(String data, int position);
     }

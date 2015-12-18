@@ -7,4 +7,6 @@
     <string name="btn_cancel">Cancel</string>
     <string name="edit_todo_item">Edit Todo Item</string>
     <string name="action_done">Done</string>
+    <string name="undo_action">Undo</string>
+    <string name="number_todos_completed">%s todos completed</string>
 </resources>
