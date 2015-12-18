@@ -28,12 +28,12 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements TodoDialogFragment.TodoListener {
 
-    public final String EDIT_MODE_FILTER = "edit_mode";
-    public final String DELETE_MODE_FILTER = "delete_mode";
+    public static final String EDIT_MODE_FILTER = "edit_mode";
+    public static final String DELETE_MODE_FILTER = "delete_mode";
     private TodoAdapter adapter;
     private ActionMode.Callback callback;
     private ActionMode actionMode;
-    private TodoBroadcastReciever todoBroadcastReciever;
+    private TodoBroadcastReceiver todoBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
         setUpActionModeCallback();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new FabClickListener());
-        todoBroadcastReciever = new TodoBroadcastReciever();
+        todoBroadcastReceiver = new TodoBroadcastReceiver();
 
     }
 
@@ -56,13 +56,13 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
         IntentFilter filter = new IntentFilter();
         filter.addAction(EDIT_MODE_FILTER);
         filter.addAction(DELETE_MODE_FILTER);
-        LocalBroadcastManager.getInstance(this).registerReceiver(todoBroadcastReciever, filter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(todoBroadcastReceiver, filter);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(todoBroadcastReciever);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(todoBroadcastReceiver);
     }
 
     @Override
@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
 
     }
 
-    private class TodoBroadcastReciever extends BroadcastReceiver{
+    private class TodoBroadcastReceiver extends BroadcastReceiver{
 
         public final String POSITION_EXTRA = "position";
         public final String TEXT_EXTRA = "text";

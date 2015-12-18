@@ -2,25 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingTop="@dimen/list_item_padding"
     android:paddingBottom="@dimen/list_item_padding"
+    android:paddingRight="@dimen/list_item_padding"
     android:clickable="true"
     android:background="?attr/selectableItemBackground">
-
-    <TextView
-        android:id="@+id/tv_main_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:paddingLeft="8dp"
-        style="@style/Todo.TextView" />
 
     <CheckBox
         android:id="@+id/cb_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_toLeftOf="@id/tv_main_text" />
+        android:layout_alignParentLeft="true" />
+
+    <TextView
+        android:id="@+id/tv_main_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/cb_checkbox"
+        android:layout_toEndOf="@+id/cb_checkbox"
+        android:layout_centerVertical="true"
+        android:padding="@dimen/list_item_text_padding"
+        android:textAppearance="@style/Todo.TextView"
+         />
+
+
 
 </RelativeLayout>
