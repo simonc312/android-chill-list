@@ -136,7 +136,6 @@ public class MainActivity extends AppCompatActivity implements TodoDialogFragmen
 
                         int numDeleted = adapter.deleteCheckedItems();
                         showSnackBar(String.format(getString(R.string.number_todos_completed),numDeleted));
-
                         mode.finish();
                         return true;
                     default:

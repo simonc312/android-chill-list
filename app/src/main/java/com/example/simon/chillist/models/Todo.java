@@ -60,4 +60,21 @@ public class Todo extends BaseModel{
         return new Select().from(Todo.class).orderBy(false, "ID").queryList();
     }
 
+    public static class Momento{
+        private int position;
+        private Todo todo;
+        public Momento(int position,Todo todo){
+            this.position = position;
+            this.todo = todo;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public Todo getTodo() {
+            return todo;
+        }
+    }
+
 }
