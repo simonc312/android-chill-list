@@ -10,6 +10,7 @@ There are a few minor differences:
 - Todo items have a 150 character limit
 - Delete todos by checking them off and pressing the big white checkmark in the corner.
 - Todos are persisted with help of DBFlow version 2.2.1 library 
+- snackbar has undo action after completing todos in case of accident 
 
 Quick app walkthrough:
 

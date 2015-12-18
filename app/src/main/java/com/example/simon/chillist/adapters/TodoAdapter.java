@@ -11,16 +11,19 @@ import com.example.simon.chillist.viewholders.TodoViewHolder;
 import com.example.simon.chillist.models.Todo;
 
 import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by Simon on 12/13/2015.
  */
 public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
     private List<Todo> mData;
+    private Stack<Todo.Momento> backupDataStack;
     private Context mContext;
 
     public TodoAdapter(Context context, List<Todo> list){
         mData = list;
+        backupDataStack = new Stack<>();
         mContext = context;
     }
     @Override
@@ -40,9 +43,14 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
         return mData.size();
     }
 
-    public void addItem(int position, String data){
-        mData.add(position, Todo.createAndSave(data));
+    public void addItem(int position, Todo data){
+        mData.add(position, data);
         notifyItemInserted(position);
+    }
+
+    public void restoreItem(int position, Todo data){
+        data.save();
+        addItem(position,data);
     }
 
     public void deleteItem(int position){
@@ -59,12 +67,19 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
         notifyItemChanged(position);
     }
 
-    public void deleteCheckedItems() {
+    public int deleteCheckedItems() {
+        backupDataStack.clear();
+        int count = 0;
         for(int i=mData.size()-1; i >= 0; i--){
-            if(mData.get(i).getChecked()) {
+            Todo todo = mData.get(i);
+            if(todo.getChecked()) {
                 deleteItem(i);
+                addToBackupStack(i, todo);
+                count++;
             }
         }
+
+        return count;
     }
 
     public void unCheckAllItems() {
@@ -84,5 +99,17 @@ public class TodoAdapter extends RecyclerView.Adapter<TodoViewHolder> {
                 return true;
         }
         return false;
+    }
+
+    public void undoLastAction() {
+        while(!backupDataStack.isEmpty()){
+            Todo.Momento momento = backupDataStack.pop();
+            restoreItem(momento.getPosition(), momento.getTodo());
+        }
+
+    }
+
+    private void addToBackupStack(int position, Todo todo) {
+        backupDataStack.push(new Todo.Momento(position, todo));
     }
 }

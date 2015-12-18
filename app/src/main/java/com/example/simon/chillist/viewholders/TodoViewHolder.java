@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.simon.chillist.R;
+import com.example.simon.chillist.activities.MainActivity;
 import com.example.simon.chillist.models.Todo;
 
 /**
@@ -35,15 +36,15 @@ public class TodoViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     public void onClick(View v) {
         // broadcast edit intent
         if(v.equals(itemView)){
-            Intent intent = new Intent("edit_mode");
+            Intent intent = new Intent(MainActivity.EDIT_MODE_FILTER);
             intent.putExtra("position",this.getAdapterPosition());
             intent.putExtra("text",todo.getText());
             LocalBroadcastManager.getInstance(v.getContext()).sendBroadcast(intent);
         } //broadcast delete intent
         else{
             todo.setChecked(checkBox.isChecked());
-            Intent intent = new Intent("delete_mode");
-            LocalBroadcastManager.getInstance(v.getContext()).sendBroadcast(intent);
+            todo.update();
+            sendDeleteBroadcast(true);
         }
     }
 
@@ -51,6 +52,14 @@ public class TodoViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         this.todo = todo;
         mainTextView.setText(todo.getText());
         checkBox.setChecked(todo.getChecked());
+        sendDeleteBroadcast(todo.getChecked());
+    }
+
+    public void sendDeleteBroadcast(boolean shouldSend){
+        if(shouldSend){
+            Intent intent = new Intent(MainActivity.DELETE_MODE_FILTER);
+            LocalBroadcastManager.getInstance(itemView.getContext()).sendBroadcast(intent);
+        }
     }
 
     public Todo getTodo(){
